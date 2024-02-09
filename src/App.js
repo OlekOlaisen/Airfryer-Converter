@@ -31,6 +31,11 @@ import {
   AlertIcon,
   AlertTitle,
   AlertDescription,
+  Tabs,
+  TabList,
+  TabPanels,
+  Tab,
+  TabPanel,
 } from "@chakra-ui/react";
 
 function App() {
@@ -195,29 +200,36 @@ function App() {
     setAirfryerTime(Math.round(airfryerTimeMinutes));
   }, [ovenTemp, ovenTime, tempUnit]);
 
-  const toggleTempUnit = () => {
-    if (tempUnit === "C") {
-      setOvenTemp(Math.round(celsiusToFahrenheit(ovenTemp)));
-      setTempUnit("F");
-    } else {
-      setOvenTemp(Math.round(fahrenheitToCelsius(ovenTemp)));
-      setTempUnit("C");
-    }
-  };
+ const handleTempUnitChange = (index) => {
+   const newUnit = index === 0 ? "C" : "F";
+   if (tempUnit !== newUnit) {
+     if (newUnit === "F") {
+       // Convert from Celsius to Fahrenheit
+       setOvenTemp(Math.round(celsiusToFahrenheit(ovenTemp)));
+     } else {
+       // Convert from Fahrenheit to Celsius
+       setOvenTemp(Math.round(fahrenheitToCelsius(ovenTemp)));
+     }
+     setTempUnit(newUnit);
+   }
+ };
 
   return (
     <Box p={5} bg={colorMode === "light" ? "gray.50" : "gray.800"} minH="100vh">
       <VStack spacing={4}>
         <FormControl display="flex" alignItems="center">
-          <FormLabel htmlFor="temp-unit-switch" mb="0">
-            <Icon as={FaTemperatureHigh} mr={2} color="brand.500" />
-            {tempUnit === "C" ? "Celsius" : "Fahrenheit"}
-          </FormLabel>
-          <Switch
-            id="temp-unit-switch"
-            onChange={toggleTempUnit}
-            isChecked={tempUnit === "F"}
-          />
+          <Icon as={FaTemperatureHigh} mr={2} color="brand.500" />
+
+          <Tabs
+            variant="line"
+            colorScheme="red"
+            onChange={handleTempUnitChange}
+          >
+            <TabList>
+              <Tab>°C</Tab>
+              <Tab>°F</Tab>
+            </TabList>
+          </Tabs>
         </FormControl>
         <Button onClick={toggleColorMode} size="sm" alignSelf="flex-end">
           {colorMode === "light" ? <Icon as={FaMoon} /> : <Icon as={FaSun} />}
@@ -275,9 +287,9 @@ function App() {
               Converted Airfryer Settings
             </Text>
             <Text fontSize="md">
-              Temperature: {airfryerTemp}°{tempUnit}
+              Air fry for {airfryerTime} minutes at {airfryerTemp}°{tempUnit}
             </Text>
-            <Text fontSize="md">Time: {airfryerTime} minutes</Text>
+            
           </VStack>
         </Box>
         <Alert status="warning" borderRadius="md" mb={4}>
@@ -287,7 +299,7 @@ function App() {
             <AlertDescription display="block">
               Cooking times may vary depending on your specific airfryer model.
               Please use the settings below as a guideline and adjust as
-              necessary.
+              necessary. 
             </AlertDescription>
           </Box>
         </Alert>
