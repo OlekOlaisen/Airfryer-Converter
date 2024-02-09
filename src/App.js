@@ -7,9 +7,7 @@ import {
   SliderThumb,
   Text,
   VStack,
-  Switch,
   FormControl,
-  FormLabel,
   Icon,
   useColorMode,
   Button,
@@ -33,9 +31,7 @@ import {
   AlertDescription,
   Tabs,
   TabList,
-  TabPanels,
   Tab,
-  TabPanel,
 } from "@chakra-ui/react";
 
 function App() {
@@ -314,48 +310,50 @@ function App() {
             </AlertDescription>
           </Box>
         </Alert>
-        <Accordion allowMultiple w="full">
-          {Object.entries(foodCategories).map(([category, dishes]) => (
-            <AccordionItem key={category}>
-              <h2>
-                <AccordionButton>
-                  <Box flex="1" textAlign="left">
-                    {category}
-                  </Box>
-                  <AccordionIcon />
-                </AccordionButton>
-              </h2>
-              <AccordionPanel pb={4}>
-                <Grid templateColumns="repeat(2, 1fr)" gap={4}>
-                  {dishes.map((dish) => (
-                    <GridItem w="100%" key={dish.key}>
-                      <Box
-                        as="button"
-                        w="100%" // Use 100% to make sure it fills the column space
-                        h="100px" // Set a fixed height
-                        minW="100px" // Minimum width ensures consistency in smaller viewports
-                        p={4}
-                        bg={colorMode === "light" ? "blue.500" : "blue.500"}
-                        color="white"
-                        rounded="md"
-                        shadow="md"
-                        display="flex"
-                        flexDirection="column"
-                        justifyContent="center"
-                        alignItems="center"
-                        onClick={() => selectFood(dish)}
-                      >
-                        <Icon as={FaTemperatureHigh} w={5} h={5} mb={2} />
-                        <Text textAlign="center" fontWeight="bold">
-                          {dish.displayName}
-                        </Text>
-                      </Box>
-                    </GridItem>
-                  ))}
-                </Grid>
-              </AccordionPanel>
-            </AccordionItem>
-          ))}
+        <Accordion allowToggle w="full">
+          {Object.entries(foodCategories).map(
+            ([category, dishes], index, array) => (
+              <AccordionItem key={category}>
+                <h2>
+                  <AccordionButton>
+                    <Box flex="1" textAlign="left">
+                      {category}
+                    </Box>
+                    <AccordionIcon />
+                  </AccordionButton>
+                </h2>
+                <AccordionPanel pb={index === array.length - 1 ? "100px" : "4"}>
+                  <Grid templateColumns="repeat(2, 1fr)" gap={4}>
+                    {dishes.map((dish) => (
+                      <GridItem w="100%" key={dish.key}>
+                        <Box
+                          as="button"
+                          w="100%"
+                          h="100px"
+                          minW="100px"
+                          p={4}
+                          bg={colorMode === "light" ? "blue.500" : "blue.500"}
+                          color="white"
+                          rounded="md"
+                          shadow="md"
+                          display="flex"
+                          flexDirection="column"
+                          justifyContent="center"
+                          alignItems="center"
+                          onClick={() => selectFood(dish)}
+                        >
+                          <Icon as={FaTemperatureHigh} w={5} h={5} mb={2} />
+                          <Text textAlign="center" fontWeight="bold">
+                            {dish.displayName}
+                          </Text>
+                        </Box>
+                      </GridItem>
+                    ))}
+                  </Grid>
+                </AccordionPanel>
+              </AccordionItem>
+            )
+          )}
         </Accordion>
       </VStack>
     </Box>
