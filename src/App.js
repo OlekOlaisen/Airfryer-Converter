@@ -45,6 +45,7 @@ function App() {
   const [airfryerTemp, setAirfryerTemp] = useState(0);
   const [airfryerTime, setAirfryerTime] = useState(0);
   const { colorMode, toggleColorMode } = useColorMode();
+  const [selectedDishName, setSelectedDishName] = useState("");
   const toast = useToast();
 
   const foodCategories = React.useMemo(
@@ -176,6 +177,8 @@ function App() {
     setAirfryerTemp(airfryerTemp);
     setAirfryerTime(airfryerTime);
 
+    setSelectedDishName(displayName);
+
     // Display toast with air fryer settings
     toast({
       title: `${displayName} settings applied.`,
@@ -200,19 +203,19 @@ function App() {
     setAirfryerTime(Math.round(airfryerTimeMinutes));
   }, [ovenTemp, ovenTime, tempUnit]);
 
- const handleTempUnitChange = (index) => {
-   const newUnit = index === 0 ? "C" : "F";
-   if (tempUnit !== newUnit) {
-     if (newUnit === "F") {
-       // Convert from Celsius to Fahrenheit
-       setOvenTemp(Math.round(celsiusToFahrenheit(ovenTemp)));
-     } else {
-       // Convert from Fahrenheit to Celsius
-       setOvenTemp(Math.round(fahrenheitToCelsius(ovenTemp)));
-     }
-     setTempUnit(newUnit);
-   }
- };
+  const handleTempUnitChange = (index) => {
+    const newUnit = index === 0 ? "C" : "F";
+    if (tempUnit !== newUnit) {
+      if (newUnit === "F") {
+        // Convert from Celsius to Fahrenheit
+        setOvenTemp(Math.round(celsiusToFahrenheit(ovenTemp)));
+      } else {
+        // Convert from Fahrenheit to Celsius
+        setOvenTemp(Math.round(fahrenheitToCelsius(ovenTemp)));
+      }
+      setTempUnit(newUnit);
+    }
+  };
 
   return (
     <Box p={5} bg={colorMode === "light" ? "gray.50" : "gray.800"} minH="100vh">
@@ -284,12 +287,13 @@ function App() {
         >
           <VStack spacing={2}>
             <Text fontSize="xl" fontWeight="bold" textAlign="center">
-              Converted Airfryer Settings
+              {selectedDishName
+                ? selectedDishName
+                : "Converted Airfryer Settings"}
             </Text>
             <Text fontSize="md">
               Air fry for {airfryerTime} minutes at {airfryerTemp}°{tempUnit}
             </Text>
-            
           </VStack>
         </Box>
         <Alert status="warning" borderRadius="md" mb={4}>
@@ -299,7 +303,7 @@ function App() {
             <AlertDescription display="block">
               Cooking times may vary depending on your specific airfryer model.
               Please use the settings below as a guideline and adjust as
-              necessary. 
+              necessary.
             </AlertDescription>
           </Box>
         </Alert>
