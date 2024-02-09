@@ -36,15 +36,15 @@ import {
   Tabs,
   TabList,
   Tab,
-  Collapse
+  Collapse,
 } from "@chakra-ui/react";
 
-
-
 function App() {
+  const [tempUnit, setTempUnit] = useState(() => {
+    return localStorage.getItem("tempUnit") || "C";
+  });
   const [ovenTemp, setOvenTemp] = useState(180); // Default in Celsius
   const [ovenTime, setOvenTime] = useState(60);
-  const [tempUnit, setTempUnit] = useState("C");
   const [airfryerTemp, setAirfryerTemp] = useState(0);
   const [airfryerTime, setAirfryerTime] = useState(0);
   const { colorMode, toggleColorMode } = useColorMode();
@@ -364,19 +364,28 @@ function App() {
     setAirfryerTime(Math.round(airfryerTimeMinutes));
   }, [ovenTemp, ovenTime, tempUnit]);
 
+  useEffect(() => {
+    localStorage.setItem("tempUnit", tempUnit);
+  }, [tempUnit]);
+
   const handleTempUnitChange = (index) => {
     const newUnit = index === 0 ? "C" : "F";
     if (tempUnit !== newUnit) {
       if (newUnit === "F") {
-        // Convert from Celsius to Fahrenheit
         setOvenTemp(Math.round(celsiusToFahrenheit(ovenTemp)));
       } else {
-        // Convert from Fahrenheit to Celsius
         setOvenTemp(Math.round(fahrenheitToCelsius(ovenTemp)));
       }
       setTempUnit(newUnit);
+      // Save the tab index to local storage
+      localStorage.setItem("tempUnitIndex", index.toString());
     }
   };
+
+  const defaultTabIndex = parseInt(
+    localStorage.getItem("tempUnitIndex") || "0",
+    10
+  );
 
   return (
     <Box p={5} bg={colorMode === "light" ? "gray.50" : "gray.800"} minH="100vh">
@@ -388,6 +397,7 @@ function App() {
             variant="line"
             colorScheme="red"
             onChange={handleTempUnitChange}
+            defaultIndex={defaultTabIndex}
           >
             <TabList>
               <Tab>°C</Tab>
@@ -473,14 +483,13 @@ function App() {
             <Text fontSize="md">
               Air fry for {airfryerTime} minutes at {airfryerTemp}°{tempUnit}
             </Text>
-            
-              <Collapse in={isFooterExpanded} animateOpacity>
-                <Box p={4} bg="gray.800" color="gray.100" w="full">
-                  {/* Placeholder for detailed instructions. You can replace this with actual content based on the selected dish. */}
-                  <Text>{selectedDishInstructions}</Text>
-                </Box>
-              </Collapse>
-            
+
+            <Collapse in={isFooterExpanded} animateOpacity>
+              <Box p={4} bg="gray.800" color="gray.100" w="full">
+                {/* Placeholder for detailed instructions. You can replace this with actual content based on the selected dish. */}
+                <Text>{selectedDishInstructions}</Text>
+              </Box>
+            </Collapse>
           </VStack>
         </Box>
 
