@@ -1,92 +1,148 @@
 import React, { useState, useEffect } from "react";
-import "./App.css";
+import {
+  Box,
+  Slider,
+  SliderTrack,
+  SliderFilledTrack,
+  SliderThumb,
+  Select,
+  Text,
+  VStack,
+  Switch,
+  FormControl,
+  FormLabel,
+  Icon,
+  useColorMode,
+  Button,
+} from "@chakra-ui/react";
+import { FaSun, FaMoon, FaTemperatureHigh, FaClock } from "react-icons/fa";
 
 function App() {
-  const [ovenTemp, setOvenTemp] = useState(180); // Default oven temperature in Celsius
-  const [ovenTime, setOvenTime] = useState(60); // Default oven time in minutes
-  const [tempUnit, setTempUnit] = useState("C"); // Temperature unit, 'C' for Celsius, 'F' for Fahrenheit
+  const [ovenTemp, setOvenTemp] = useState(180); // Default in Celsius
+  const [ovenTime, setOvenTime] = useState(60);
+  const [tempUnit, setTempUnit] = useState("C");
   const [airfryerTemp, setAirfryerTemp] = useState(0);
   const [airfryerTime, setAirfryerTime] = useState(0);
+  const [selectedFood, setSelectedFood] = useState("");
+  const { colorMode, toggleColorMode } = useColorMode();
 
-  // Convert Celsius to Fahrenheit
+  const foodSettings = {
+    chicken: { temp: 200, time: 45 },
+    fish: { temp: 180, time: 30 },
+    steak: { temp: 195, time: 40 },
+    vegetables: { temp: 175, time: 25 },
+  };
+
   const celsiusToFahrenheit = (celsius) => (celsius * 9) / 5 + 32;
-
-  // Convert Fahrenheit to Celsius
   const fahrenheitToCelsius = (fahrenheit) => ((fahrenheit - 32) * 5) / 9;
 
   useEffect(() => {
-    let convertedTemp = ovenTemp;
-    if (tempUnit === "F") {
-      convertedTemp = fahrenheitToCelsius(ovenTemp);
+    if (selectedFood && foodSettings[selectedFood]) {
+      const { temp, time } = foodSettings[selectedFood];
+      const adjustedTemp = tempUnit === "F" ? celsiusToFahrenheit(temp) : temp;
+      setOvenTemp(adjustedTemp);
+      setOvenTime(time);
     }
-    convertedTemp = convertedTemp - 20; // Airfryer conversion in Celsius
-    const convertedTime = ovenTime - ovenTime * 0.2;
+  }, [selectedFood, tempUnit]);
 
+  useEffect(() => {
+    let temp = tempUnit === "C" ? ovenTemp : fahrenheitToCelsius(ovenTemp);
+    let airfryerTempCelsius = temp - 20;
+    let airfryerTimeMinutes = ovenTime - ovenTime * 0.2;
     if (tempUnit === "F") {
-      convertedTemp = celsiusToFahrenheit(convertedTemp);
+      airfryerTempCelsius = celsiusToFahrenheit(airfryerTempCelsius);
     }
-
-    setAirfryerTemp(Math.round(convertedTemp));
-    setAirfryerTime(Math.round(convertedTime));
+    setAirfryerTemp(Math.round(airfryerTempCelsius));
+    setAirfryerTime(Math.round(airfryerTimeMinutes));
   }, [ovenTemp, ovenTime, tempUnit]);
 
-  const handleTabClick = (unit) => {
-    setTempUnit(unit);
-    // Convert the current ovenTemp to the new unit
-    if (unit === "F" && tempUnit !== "F") {
+  const toggleTempUnit = () => {
+    if (tempUnit === "C") {
       setOvenTemp(Math.round(celsiusToFahrenheit(ovenTemp)));
-    } else if (unit === "C" && tempUnit !== "C") {
+      setTempUnit("F");
+    } else {
       setOvenTemp(Math.round(fahrenheitToCelsius(ovenTemp)));
+      setTempUnit("C");
     }
   };
 
   return (
-    <div className="App">
-      <h2>Oven to Airfryer Cooking Time Converter</h2>
-      <div className="tabs">
-        <button
-          className={`tab ${tempUnit === "C" ? "active" : ""}`}
-          onClick={() => handleTabClick("C")}
+    <Box p={5} bg={colorMode === "light" ? "gray.50" : "gray.800"} minH="100vh">
+      
+      <VStack spacing={4}>
+        <FormControl display="flex" alignItems="center">
+          <FormLabel htmlFor="temp-unit-switch" mb="0">
+            <Icon as={FaTemperatureHigh} mr={2} color="brand.500" />
+            {tempUnit === "C" ? "Celsius" : "Fahrenheit"}
+          </FormLabel>
+          <Switch
+            id="temp-unit-switch"
+            onChange={toggleTempUnit}
+            isChecked={tempUnit === "F"}
+          />
+        </FormControl>
+        <Button onClick={toggleColorMode} size="sm" alignSelf="flex-end">
+          {colorMode === "light" ? <Icon as={FaMoon} /> : <Icon as={FaSun} />}
+        </Button>
+        <Text fontSize="2xl" fontWeight="bold" color="brand.500">
+          Oven to Airfryer Cooking Time Converter
+        </Text>
+        <Select
+          placeholder="Select food type"
+          onChange={(e) => setSelectedFood(e.target.value)}
         >
-          Celsius
-        </button>
-        <button
-          className={`tab ${tempUnit === "F" ? "active" : ""}`}
-          onClick={() => handleTabClick("F")}
-        >
-          Fahrenheit
-        </button>
-      </div>
-      <div>
-        <label>Oven Temperature ({tempUnit === "C" ? "°C" : "°F"}): </label>
-        <input
-          type="range"
-          min={tempUnit === "C" ? "100" : Math.round(celsiusToFahrenheit(100))}
-          max={tempUnit === "C" ? "250" : Math.round(celsiusToFahrenheit(250))}
+          {Object.keys(foodSettings).map((food) => (
+            <option key={food} value={food}>
+              {food.charAt(0).toUpperCase() + food.slice(1)}
+            </option>
+          ))}
+        </Select>
+        
+        <Text>
+          Oven Temperature ({tempUnit}): {ovenTemp}
+        </Text>
+        <Slider
+          aria-label="oven-temp-slider"
+          min={tempUnit === "C" ? 100 : celsiusToFahrenheit(100)}
+          max={tempUnit === "C" ? 250 : celsiusToFahrenheit(250)}
           value={ovenTemp}
-          onChange={(e) => setOvenTemp(e.target.value)}
-        />
-        {ovenTemp} {tempUnit === "C" ? "°C" : "°F"}
-      </div>
-      <div>
-        <label>Oven Cooking Time (minutes): </label>
-        <input
-          type="range"
-          min="10"
-          max="120"
+          onChange={(val) => setOvenTemp(val)}
+          colorScheme="teal"
+        >
+          <SliderTrack>
+            <SliderFilledTrack />
+          </SliderTrack>
+          <SliderThumb boxSize={6}>
+            <Box color="teal.500" as={FaTemperatureHigh} />
+          </SliderThumb>
+        </Slider>
+        <Text>Oven Cooking Time (minutes): {ovenTime}</Text>
+        <Slider
+          aria-label="oven-time-slider"
+          min={10}
+          max={120}
           value={ovenTime}
-          onChange={(e) => setOvenTime(e.target.value)}
-        />
-        {ovenTime} minutes
-      </div>
-      <div>
-        <h3>Converted Airfryer Settings:</h3>
-        <p>
-          Temperature: {airfryerTemp} {tempUnit === "C" ? "°C" : "°F"}
-        </p>
-        <p>Time: {airfryerTime} minutes</p>
-      </div>
-    </div>
+          onChange={(val) => setOvenTime(val)}
+          colorScheme="teal"
+        >
+          <SliderTrack>
+            <SliderFilledTrack />
+          </SliderTrack>
+          <SliderThumb boxSize={6}>
+            <Box color="teal.500" as={FaClock} />
+          </SliderThumb>
+        </Slider>
+        <Box>
+          <Text fontSize="lg" fontWeight="semibold">
+            Converted Airfryer Settings:
+          </Text>
+          <Text>
+            Temperature: {airfryerTemp} {tempUnit}
+          </Text>
+          <Text>Time: {airfryerTime} minutes</Text>
+        </Box>
+      </VStack>
+    </Box>
   );
 }
 
