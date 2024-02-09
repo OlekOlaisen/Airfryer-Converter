@@ -5,7 +5,6 @@ import {
   SliderTrack,
   SliderFilledTrack,
   SliderThumb,
-  Select,
   Text,
   VStack,
   Switch,
@@ -14,8 +13,19 @@ import {
   Icon,
   useColorMode,
   Button,
+  Grid,
+  GridItem,
+  useToast,
 } from "@chakra-ui/react";
 import { FaSun, FaMoon, FaTemperatureHigh, FaClock } from "react-icons/fa";
+import {
+  Accordion,
+  AccordionItem,
+  AccordionButton,
+  AccordionPanel,
+  AccordionIcon,
+  // other imports remain the same
+} from "@chakra-ui/react";
 
 function App() {
   const [ovenTemp, setOvenTemp] = useState(180); // Default in Celsius
@@ -25,13 +35,97 @@ function App() {
   const [airfryerTime, setAirfryerTime] = useState(0);
   const [selectedFood, setSelectedFood] = useState("");
   const { colorMode, toggleColorMode } = useColorMode();
+  const toast = useToast();
 
-  const foodSettings = React.useMemo(() => ({
-    chicken: { temp: 200, time: 45 },
-    fish: { temp: 180, time: 30 },
-    steak: { temp: 195, time: 40 },
-    vegetables: { temp: 175, time: 25 },
-  }), []);
+  const foodSettings = React.useMemo(
+    () => ({
+      Chicken: { temp: 200, time: 45 },
+      Fish: { temp: 180, time: 30 },
+      Steak: { temp: 195, time: 40 },
+      Vegetables: { temp: 175, time: 25 },
+      PorkChops: { temp: 190, time: 35 },
+      Pizza: { temp: 220, time: 15 },
+      FrenchFries: { temp: 200, time: 18 },
+      Bread: { temp: 180, time: 35 },
+      Cupcakes: { temp: 175, time: 20 },
+      Lasagna: { temp: 190, time: 30 },
+      Quiche: { temp: 180, time: 45 },
+      Meatballs: { temp: 175, time: 25 },
+      Salmon: { temp: 180, time: 20 },
+      Cookies: { temp: 170, time: 12 },
+      Brownies: { temp: 175, time: 25 },
+      FriedChicken: { temp: 180, time: 20 },
+    }),
+    []
+  );
+
+  const foodCategories = React.useMemo(
+    () => ({
+      Poultry: [
+        { key: "chicken", displayName: "Chicken", temp: 200, time: 45 },
+        {
+          key: "fried_chicken",
+          displayName: "Fried Chicken",
+          temp: 180,
+          time: 20,
+        },
+        { key: "meatballs", displayName: "Meatballs", temp: 175, time: 25 },
+      ],
+      Seafood: [
+        { key: "fish", displayName: "Fish", temp: 180, time: 30 },
+        { key: "salmon", displayName: "Salmon", temp: 180, time: 20 },
+      ],
+      Meat: [
+        { key: "steak", displayName: "Steak", temp: 195, time: 40 },
+        { key: "pork_chops", displayName: "Pork Chops", temp: 190, time: 35 },
+      ],
+      BakedGoods: [
+        { key: "bread", displayName: "Bread", temp: 180, time: 35 },
+        { key: "cupcakes", displayName: "Cupcakes", temp: 175, time: 20 },
+        { key: "cookies", displayName: "Cookies", temp: 170, time: 12 },
+        { key: "brownies", displayName: "Brownies", temp: 175, time: 25 },
+      ],
+      Vegetarian: [
+        { key: "vegetables", displayName: "Vegetables", temp: 175, time: 25 },
+        { key: "lasagna", displayName: "Lasagna", temp: 190, time: 30 },
+        { key: "quiche", displayName: "Quiche", temp: 180, time: 45 },
+      ],
+      Snacks: [
+        { key: "pizza", displayName: "Pizza", temp: 220, time: 15 },
+        {
+          key: "french_fries",
+          displayName: "French Fries",
+          temp: 200,
+          time: 18,
+        },
+      ],
+    }),
+    []
+  );
+
+
+  const selectFood = (dish) => {
+    const { temp, time, displayName } = dish;
+    // Calculate air fryer settings
+    const airfryerTemp =
+      tempUnit === "C" ? temp - 20 : celsiusToFahrenheit(temp - 20);
+    const airfryerTime = Math.round(time - time * 0.2);
+
+    // Apply settings
+    setOvenTemp(temp);
+    setOvenTime(time);
+    setAirfryerTemp(airfryerTemp);
+    setAirfryerTime(airfryerTime);
+
+    // Display toast with air fryer settings
+    toast({
+      title: `${displayName} settings applied.`,
+      description: `Air fryer set to ${airfryerTemp}°${tempUnit} for ${airfryerTime} minutes.`,
+      status: "info",
+      duration: 1500,
+      isClosable: true,
+    });
+  };
 
   const celsiusToFahrenheit = (celsius) => (celsius * 9) / 5 + 32;
   const fahrenheitToCelsius = (fahrenheit) => ((fahrenheit - 32) * 5) / 9;
@@ -68,7 +162,6 @@ function App() {
 
   return (
     <Box p={5} bg={colorMode === "light" ? "gray.50" : "gray.800"} minH="100vh">
-      
       <VStack spacing={4}>
         <FormControl display="flex" alignItems="center">
           <FormLabel htmlFor="temp-unit-switch" mb="0">
@@ -87,17 +180,7 @@ function App() {
         <Text fontSize="2xl" fontWeight="bold" color="brand.500">
           Oven to Airfryer Cooking Time Converter
         </Text>
-        <Select
-          placeholder="Select food type"
-          onChange={(e) => setSelectedFood(e.target.value)}
-        >
-          {Object.keys(foodSettings).map((food) => (
-            <option key={food} value={food}>
-              {food.charAt(0).toUpperCase() + food.slice(1)}
-            </option>
-          ))}
-        </Select>
-        
+
         <Text>
           Oven Temperature ({tempUnit}): {ovenTemp}
         </Text>
@@ -141,6 +224,47 @@ function App() {
           </Text>
           <Text>Time: {airfryerTime} minutes</Text>
         </Box>
+        <Accordion allowMultiple w="full">
+          {Object.entries(foodCategories).map(([category, dishes]) => (
+            <AccordionItem key={category}>
+              <h2>
+                <AccordionButton>
+                  <Box flex="1" textAlign="left">
+                    {category}
+                  </Box>
+                  <AccordionIcon />
+                </AccordionButton>
+              </h2>
+              <AccordionPanel pb={4}>
+                <Grid templateColumns="repeat(2, 1fr)" gap={4}>
+                  {dishes.map((dish) => (
+                    <GridItem w="100%" key={dish.key}>
+                      <Box
+                        as="button"
+                        h="100px"
+                        p={4}
+                        bg={colorMode === "light" ? "blue.100" : "blue.700"}
+                        color="white"
+                        rounded="md"
+                        shadow="md"
+                        display="flex"
+                        flexDirection="column"
+                        justifyContent="center"
+                        alignItems="center"
+                        onClick={() => selectFood(dish)}
+                      >
+                        <Icon as={FaTemperatureHigh} w={5} h={5} mb={2} />
+                        <Text textAlign="center" fontWeight="bold">
+                          {dish.displayName}
+                        </Text>
+                      </Box>
+                    </GridItem>
+                  ))}
+                </Grid>
+              </AccordionPanel>
+            </AccordionItem>
+          ))}
+        </Accordion>
       </VStack>
     </Box>
   );
