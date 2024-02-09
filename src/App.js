@@ -26,12 +26,12 @@ function App() {
   const [selectedFood, setSelectedFood] = useState("");
   const { colorMode, toggleColorMode } = useColorMode();
 
-  const foodSettings = {
+  const foodSettings = React.useMemo(() => ({
     chicken: { temp: 200, time: 45 },
     fish: { temp: 180, time: 30 },
     steak: { temp: 195, time: 40 },
     vegetables: { temp: 175, time: 25 },
-  };
+  }), []);
 
   const celsiusToFahrenheit = (celsius) => (celsius * 9) / 5 + 32;
   const fahrenheitToCelsius = (fahrenheit) => ((fahrenheit - 32) * 5) / 9;
@@ -43,7 +43,7 @@ function App() {
       setOvenTemp(adjustedTemp);
       setOvenTime(time);
     }
-  }, [selectedFood, tempUnit]);
+  }, [selectedFood, tempUnit, foodSettings]);
 
   useEffect(() => {
     let temp = tempUnit === "C" ? ovenTemp : fahrenheitToCelsius(ovenTemp);
