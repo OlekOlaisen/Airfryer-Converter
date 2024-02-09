@@ -46,6 +46,7 @@ function App() {
   const [airfryerTime, setAirfryerTime] = useState(0);
   const { colorMode, toggleColorMode } = useColorMode();
   const [selectedDishName, setSelectedDishName] = useState("");
+  const [isCustomSetting, setIsCustomSetting] = useState(false);
   const toast = useToast();
 
   const foodCategories = React.useMemo(
@@ -166,20 +167,20 @@ function App() {
 
   const selectFood = (dish) => {
     const { temp, time, displayName } = dish;
-    // Calculate air fryer settings
+
+    // Convert temperatures if needed and set state
     const airfryerTemp =
       tempUnit === "C" ? temp - 20 : celsiusToFahrenheit(temp - 20);
     const airfryerTime = Math.round(time - time * 0.2);
 
-    // Apply settings
     setOvenTemp(temp);
     setOvenTime(time);
     setAirfryerTemp(airfryerTemp);
     setAirfryerTime(airfryerTime);
 
     setSelectedDishName(displayName);
+    setIsCustomSetting(false); // Reset to show dish name
 
-    // Display toast with air fryer settings
     toast({
       title: `${displayName} settings applied.`,
       description: `Air fryer set to ${airfryerTemp}°${tempUnit} for ${airfryerTime} minutes.`,
@@ -249,7 +250,10 @@ function App() {
           min={tempUnit === "C" ? 100 : celsiusToFahrenheit(100)}
           max={tempUnit === "C" ? 250 : celsiusToFahrenheit(250)}
           value={ovenTemp}
-          onChange={(val) => setOvenTemp(val)}
+          onChange={(val) => {
+            setOvenTemp(val);
+            setIsCustomSetting(true);
+          }}
           colorScheme="teal"
         >
           <SliderTrack>
@@ -265,7 +269,10 @@ function App() {
           min={10}
           max={120}
           value={ovenTime}
-          onChange={(val) => setOvenTime(val)}
+          onChange={(val) => {
+            setOvenTime(val);
+            setIsCustomSetting(true);
+          }}
           colorScheme="teal"
         >
           <SliderTrack>
@@ -287,9 +294,9 @@ function App() {
         >
           <VStack spacing={2}>
             <Text fontSize="xl" fontWeight="bold" textAlign="center">
-              {selectedDishName
-                ? selectedDishName
-                : "Converted Airfryer Settings"}
+              {isCustomSetting
+                ? "Custom Oven to AirFryer"
+                : selectedDishName || "Converted Airfryer Settings"}
             </Text>
             <Text fontSize="md">
               Air fry for {airfryerTime} minutes at {airfryerTemp}°{tempUnit}
