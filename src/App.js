@@ -13,6 +13,9 @@ import {
   Button,
   Grid,
   GridItem,
+  Tag,
+  TagLabel,
+  TagCloseButton,
   useToast,
 } from "@chakra-ui/react";
 import {
@@ -20,6 +23,7 @@ import {
   FaMoon,
   FaTemperatureHigh,
   FaClock,
+  FaCheck,
   FaChevronUp,
   FaChevronDown,
 } from "react-icons/fa";
@@ -54,6 +58,8 @@ function App() {
   const [isFooterExpanded, setIsFooterExpanded] = useState(false);
   const [selectedDishInstructions, setSelectedDishInstructions] = useState("");
   const [alertVisible, setAlertVisible] = useState(true);
+  const [selectedCategory, setSelectedCategory] = useState(null); // New state for managing selected category
+
   const toast = useToast();
 
   const foodCategories = React.useMemo(
@@ -351,6 +357,38 @@ function App() {
     setIsFooterExpanded(!isFooterExpanded);
   };
 
+  const renderDishesForCategory = (category) => {
+    // Ensure dishes are only rendered when a category is selected
+    if (!category) return null; // Early return if no category is selected
+
+    const dishes = foodCategories[category];
+    return dishes.map((dish) => (
+      <GridItem w="100%" key={dish.key}>
+        <Box
+          as="button"
+          w="80px"
+          h="80px"
+          minW="100px"
+          p={4}
+          bg="blue.500"
+          color="white"
+          rounded="md"
+          shadow="md"
+          display="flex"
+          flexDirection="column"
+          justifyContent="center"
+          alignItems="center"
+          onClick={() => selectFood(dish)}
+        >
+          <Icon as={FaTemperatureHigh} w={5} h={5} mb={2} />
+          <Text textAlign="center" fontWeight="bold">
+            {dish.displayName}
+          </Text>
+        </Box>
+      </GridItem>
+    ));
+  };
+
   const celsiusToFahrenheit = (celsius) => (celsius * 9) / 5 + 32;
   const fahrenheitToCelsius = (fahrenheit) => ((fahrenheit - 32) * 5) / 9;
 
@@ -517,51 +555,27 @@ function App() {
             />
           </Alert>
         )}
-        <Accordion allowToggle w="full">
-          {Object.entries(foodCategories).map(
-            ([category, dishes], index, array) => (
-              <AccordionItem key={category}>
-                <h2>
-                  <AccordionButton>
-                    <Box flex="1" textAlign="left">
-                      {category}
-                    </Box>
-                    <AccordionIcon />
-                  </AccordionButton>
-                </h2>
-                <AccordionPanel pb={index === array.length - 1 ? "150px" : "4"}>
-                  <Grid templateColumns="repeat(2, 1fr)" gap={4}>
-                    {dishes.map((dish) => (
-                      <GridItem w="100%" key={dish.key}>
-                        <Box
-                          as="button"
-                          w="100%"
-                          h="100px"
-                          minW="100px"
-                          p={4}
-                          bg={colorMode === "light" ? "blue.500" : "blue.500"}
-                          color="white"
-                          rounded="md"
-                          shadow="md"
-                          display="flex"
-                          flexDirection="column"
-                          justifyContent="center"
-                          alignItems="center"
-                          onClick={() => selectFood(dish)}
-                        >
-                          <Icon as={FaTemperatureHigh} w={5} h={5} mb={2} />
-                          <Text textAlign="center" fontWeight="bold">
-                            {dish.displayName}
-                          </Text>
-                        </Box>
-                      </GridItem>
-                    ))}
-                  </Grid>
-                </AccordionPanel>
-              </AccordionItem>
-            )
-          )}
-        </Accordion>
+        <Flex wrap="wrap" justifyContent="center" gap={2}>
+          {Object.keys(foodCategories).map((category) => (
+            <Tag
+              size="lg"
+              key={category}
+              borderRadius="full"
+              variant="solid"
+              colorScheme="teal"
+              onClick={() => setSelectedCategory(category)}
+              cursor="pointer"
+            >
+              <TagLabel>{category}</TagLabel>
+              {selectedCategory === category && <Icon as={FaCheck} ml={2} />}
+            </Tag>
+          ))}
+        </Flex>
+        {selectedCategory && (
+          <Grid templateColumns="repeat(4, 1fr)" gap={4}>
+            {renderDishesForCategory(selectedCategory)}
+          </Grid>
+        )}
       </VStack>
     </Box>
   );
