@@ -92,7 +92,8 @@ function App() {
   const toast = useToast();
 
   const bgColor = { light: "gray.100", dark: "blue.900" };
-  const primaryTextColor = { light: "gray.800", dark: "gray.50" };
+  const primaryTextColor = { light: "gray.800", dark: "gray.800" };
+  const secondaryTextColor = { light: "gray.800", dark: "gray.50" };
   const accentColorPrimary = { light: "teal.600", dark: "teal.400" };
   const accentColorSecondary = { light: "lime.500", dark: "lime.300" };
  
@@ -462,13 +463,14 @@ function App() {
             justifyContent="center"
             alignItems="center"
             p={4}
-            zIndex="1" // Ensure the content is above the blurred background
+            zIndex="8"
+            bg={accentColorSecondary[colorMode]}
           >
             <Text
               textAlign="center"
               fontWeight="bold"
               color={primaryTextColor[colorMode]}
-              bg="rgba(255, 255, 255, 0.8)"
+              bg="rgba(255, 255, 255, 0.7)"
               borderRadius="md"
             >
               {dish.displayName}
@@ -544,7 +546,7 @@ function App() {
         <Text
           fontSize="2xl"
           fontWeight="bold"
-          color={accentColorPrimary[colorMode]}
+          color={secondaryTextColor[colorMode]}
         >
           Oven to Airfryer Cooking Time
         </Text>
@@ -598,11 +600,11 @@ function App() {
           position="fixed"
           bottom="0"
           width="100%"
-          bg={accentColorSecondary[colorMode]}
+          bg={bgColor[colorMode]}
           p={4}
           boxShadow="0 -2px 10px rgba(0, 0, 0, 0.1)" // Adds a slight shadow for depth
           zIndex="banner"
-          color={primaryTextColor[colorMode]}
+          color={secondaryTextColor[colorMode]}
           onClick={toggleFooter}
         >
           <VStack spacing={2}>
@@ -625,7 +627,7 @@ function App() {
               <Box
                 p={4}
                 bg={accentColorSecondary[colorMode]}
-                color={primaryTextColor[colorMode]}
+                color={secondaryTextColor[colorMode]}
                 w="full"
                 rounded="md"
               >
