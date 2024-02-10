@@ -95,7 +95,7 @@ function App() {
   const primaryTextColor = { light: "gray.800", dark: "gray.50" };
   const accentColorPrimary = { light: "teal.600", dark: "teal.400" };
   const accentColorSecondary = { light: "lime.500", dark: "lime.300" };
-
+ 
   const foodCategories = React.useMemo(
     () => ({
       Poultry: [
