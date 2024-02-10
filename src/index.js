@@ -1,7 +1,7 @@
 import React from "react";
-import ReactDOM from "react-dom";
 import App from "./App";
 import { ChakraProvider, extendTheme } from "@chakra-ui/react";
+import { createRoot } from "react-dom/client";
 
 // Define a custom color palette
 const colors = {
@@ -10,7 +10,7 @@ const colors = {
     100: "#b3e5fc",
     200: "#81d4fa",
     300: "#4fc3f7",
-    400: "#29b6f6", 
+    400: "#29b6f6",
     500: "#03a9f4", // default brand color
     600: "#039be5",
     700: "#0288d1",
@@ -73,11 +73,16 @@ const theme = extendTheme({
   },
 });
 
-ReactDOM.render(
+const container = document.getElementById("root");
+const root = createRoot(container);
+
+root.render(
   <React.StrictMode>
     <ChakraProvider theme={theme}>
       <App />
     </ChakraProvider>
   </React.StrictMode>,
-  document.getElementById("root")
+  
 );
+
+
