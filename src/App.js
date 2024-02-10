@@ -15,7 +15,7 @@ import {
   GridItem,
   Tag,
   TagLabel,
-  TagCloseButton,
+  
   useToast,
 } from "@chakra-ui/react";
 import {
@@ -28,11 +28,7 @@ import {
   FaChevronDown,
 } from "react-icons/fa";
 import {
-  Accordion,
-  AccordionItem,
-  AccordionButton,
-  AccordionPanel,
-  AccordionIcon,
+
   Alert,
   AlertIcon,
   AlertTitle,
