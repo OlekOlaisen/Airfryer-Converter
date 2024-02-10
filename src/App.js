@@ -15,7 +15,6 @@ import {
   GridItem,
   Tag,
   TagLabel,
-  
   useToast,
 } from "@chakra-ui/react";
 import {
@@ -28,7 +27,6 @@ import {
   FaChevronDown,
 } from "react-icons/fa";
 import {
-
   Alert,
   AlertIcon,
   AlertTitle,
@@ -44,7 +42,15 @@ function App() {
   const [tempUnit, setTempUnit] = useState(() => {
     return localStorage.getItem("tempUnit") || "C";
   });
-  const [ovenTemp, setOvenTemp] = useState(180); // Default in Celsius
+
+  const getDefaultOvenTemp = () => {
+    const unit = localStorage.getItem("tempUnit") || "C";
+    return unit === "F" ? 356 : 180; // 356°F is roughly equivalent to 180°C
+  };
+
+
+  
+  const [ovenTemp, setOvenTemp] = useState(getDefaultOvenTemp);
   const [ovenTime, setOvenTime] = useState(60);
   const [airfryerTemp, setAirfryerTemp] = useState(0);
   const [airfryerTime, setAirfryerTime] = useState(0);
@@ -55,8 +61,17 @@ function App() {
   const [selectedDishInstructions, setSelectedDishInstructions] = useState("");
   const [alertVisible, setAlertVisible] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState(null); // New state for managing selected category
-
   const toast = useToast();
+
+  
+
+  
+
+  const bgColor = { light: "gray.100", dark: "blue.900" };
+  const primaryTextColor = { light: "gray.800", dark: "gray.50" };
+  const secondaryTextColor = { light: "gray.600", dark: "gray.200" };
+  const accentColorPrimary = { light: "teal.600", dark: "teal.400" };
+  const accentColorSecondary = { light: "lime.500", dark: "lime.300" };
 
   const foodCategories = React.useMemo(
     () => ({
@@ -318,6 +333,7 @@ function App() {
       tempUnit === "C" ? temp - 20 : celsiusToFahrenheit(temp - 20);
     const calculatedTime = Math.round(time - time * 0.2);
 
+    const ovenTempUpdated = tempUnit === "C" ? temp : celsiusToFahrenheit(temp);
     // Convert calculatedTemp back to the current unit if needed
     const displayTemp =
       tempUnit === "C"
@@ -329,7 +345,7 @@ function App() {
       .replace(/\{temp\}/g, `${displayTemp}°${tempUnit}`) // Now includes the unit
       .replace(/\{time\}/g, calculatedTime);
 
-    setOvenTemp(temp);
+    setOvenTemp(ovenTempUpdated);
     setOvenTime(time);
     setAirfryerTemp(calculatedTemp);
     setAirfryerTime(calculatedTime);
@@ -366,8 +382,8 @@ function App() {
           h="80px"
           minW="100px"
           p={4}
-          bg="blue.500"
-          color="white"
+          bg={accentColorPrimary[colorMode]}
+          color={primaryTextColor[colorMode]}
           rounded="md"
           shadow="md"
           display="flex"
@@ -427,7 +443,7 @@ function App() {
   );
 
   return (
-    <Box p={5} bg={colorMode === "light" ? "gray.50" : "gray.800"} minH="100vh">
+    <Box p={5} bg={bgColor[colorMode]} minH="100vh">
       <VStack spacing={4}>
         <Flex width="100%" justifyContent="space-between">
           <Tabs
@@ -446,7 +462,11 @@ function App() {
           </Button>
         </Flex>
 
-        <Text fontSize="2xl" fontWeight="bold" color="brand.500">
+        <Text
+          fontSize="2xl"
+          fontWeight="bold"
+          color={accentColorPrimary[colorMode]}
+        >
           Oven to Airfryer Cooking Time
         </Text>
 
@@ -499,11 +519,11 @@ function App() {
           position="fixed"
           bottom="0"
           width="100%"
-          bg={colorMode === "dark" ? "gray.700" : "gray.400"} // Adjust for light/dark mode
+          bg={accentColorSecondary[colorMode]}
           p={4}
           boxShadow="0 -2px 10px rgba(0, 0, 0, 0.1)" // Adds a slight shadow for depth
           zIndex="banner"
-          color={colorMode === "dark" ? "white" : "gray.800"} // Text color for readability
+          color={primaryTextColor[colorMode]}
           onClick={toggleFooter}
         >
           <VStack spacing={2}>
@@ -523,7 +543,13 @@ function App() {
             </Text>
 
             <Collapse in={isFooterExpanded} animateOpacity>
-              <Box p={4} bg="gray.800" color="gray.100" w="full">
+              <Box
+                p={4}
+                bg={accentColorSecondary[colorMode]}
+                color={primaryTextColor[colorMode]}
+                w="full"
+                rounded="md"
+              >
                 {/* Placeholder for detailed instructions. You can replace this with actual content based on the selected dish. */}
                 <Text>{selectedDishInstructions}</Text>
               </Box>
