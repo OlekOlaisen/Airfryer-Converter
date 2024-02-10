@@ -56,7 +56,7 @@ import ApplePie from "./assets/desserts/applepie.jpg";
 import ChocolateCake from "./assets/desserts/chocolatecake.jpg";
 import Cheesecake from "./assets/desserts/cheesecake.jpg";
 import Donuts from "./assets/desserts/donuts.jpg";
-import AirFryerGif from "./assets/airfryer.gif";
+
 
 function App() {
   const [tempUnit, setTempUnit] = useState(() => {
@@ -77,7 +77,7 @@ function App() {
   const [isCustomSetting, setIsCustomSetting] = useState(false);
   const [isFooterExpanded, setIsFooterExpanded] = useState(false);
   const [selectedDishInstructions, setSelectedDishInstructions] = useState("");
-
+  const [selectedDishImage, setSelectedDishImage] = useState("");
   const [selectedCategory, setSelectedCategory] = useState(null); // New state for managing selected category
   const toast = useToast();
 
@@ -404,7 +404,7 @@ function App() {
     setOvenTime(time);
     setAirfryerTemp(calculatedTemp);
     setAirfryerTime(calculatedTime);
-
+    setSelectedDishImage(dish.image);
     setSelectedDishName(displayName);
     setSelectedDishInstructions(dynamicInstructions); // Use the dynamically replaced instructions with unit
     setIsCustomSetting(false);
@@ -618,12 +618,15 @@ function App() {
 
             {/* Flex container for GIF and text */}
             <Flex width="100%" justifyContent="flex-start" alignItems="center">
-              <Image
-                src={AirFryerGif}
-                boxSize="70px"
-                alt="Cooking"
-                marginRight="auto"
-              />{" "}
+              {selectedDishName && (
+                <Image
+                  src={selectedDishImage}
+                  boxSize="100px"
+                  alt="Selected dish image"
+                  marginRight="auto"
+                  rounded="md"
+                />
+              )}{" "}
               {/* GIF to the left */}
               <Text fontSize="md" marginLeft="-14" marginRight="auto">
                 {" "}
