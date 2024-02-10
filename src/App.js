@@ -7,7 +7,6 @@ import {
   SliderThumb,
   Text,
   VStack,
-  FormControl,
   Flex,
   Icon,
   useColorMode,
