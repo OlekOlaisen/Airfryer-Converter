@@ -334,7 +334,7 @@ function App() {
     setSelectedDishName(displayName);
     setSelectedDishInstructions(dynamicInstructions); // Use the dynamically replaced instructions with unit
     setIsCustomSetting(false);
-    setIsFooterExpanded(true); // Automatically expand the footer to show instructions
+    // Removed setIsFooterExpanded(true) to prevent automatic expansion on dish selection
 
     toast({
       title: `${displayName} settings applied.`,
@@ -345,6 +345,7 @@ function App() {
       position: "top",
     });
   };
+
 
   const toggleFooter = () => {
     setIsFooterExpanded(!isFooterExpanded);
