@@ -69,7 +69,7 @@ function App() {
 
   const bgColor = { light: "gray.100", dark: "blue.900" };
   const primaryTextColor = { light: "gray.800", dark: "gray.50" };
-  const secondaryTextColor = { light: "gray.600", dark: "gray.200" };
+  const secondaryTextColor = { light: "gray.200", dark: "gray.200" };
   const accentColorPrimary = { light: "teal.600", dark: "teal.400" };
   const accentColorSecondary = { light: "lime.500", dark: "lime.300" };
 
@@ -392,7 +392,11 @@ function App() {
           alignItems="center"
           onClick={() => selectFood(dish)}
         >
-          <Text textAlign="center" fontWeight="bold">
+          <Text
+            textAlign="center"
+            fontWeight="bold"
+            color={secondaryTextColor[colorMode]}
+          >
             {dish.displayName}
           </Text>
         </Box>
