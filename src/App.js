@@ -37,6 +37,7 @@ import {
   TabList,
   Tab,
   Collapse,
+  CloseButton,
 } from "@chakra-ui/react";
 
 function App() {
@@ -52,7 +53,7 @@ function App() {
   const [isCustomSetting, setIsCustomSetting] = useState(false);
   const [isFooterExpanded, setIsFooterExpanded] = useState(false);
   const [selectedDishInstructions, setSelectedDishInstructions] = useState("");
-
+  const [alertVisible, setAlertVisible] = useState(true);
   const toast = useToast();
 
   const foodCategories = React.useMemo(
@@ -346,7 +347,6 @@ function App() {
     });
   };
 
-
   const toggleFooter = () => {
     setIsFooterExpanded(!isFooterExpanded);
   };
@@ -383,6 +383,11 @@ function App() {
     }
   };
 
+  const closeAlert = () => {
+    console.log("Closing alert"); // Debugging line
+    setAlertVisible(false);
+  };
+
   const defaultTabIndex = parseInt(
     localStorage.getItem("tempUnitIndex") || "0",
     10
@@ -398,7 +403,6 @@ function App() {
             onChange={handleTempUnitChange}
             defaultIndex={defaultTabIndex}
           >
-            
             <TabList>
               <Tab>°C</Tab>
               <Tab>°F</Tab>
@@ -494,17 +498,25 @@ function App() {
           </VStack>
         </Box>
 
-        <Alert status="warning" borderRadius="md" mb={4}>
-          <AlertIcon />
-          <Box flex="1">
-            <AlertTitle>Cooking times may vary</AlertTitle>
-            <AlertDescription display="block">
-              Cooking times may vary depending on your specific airfryer model.
-              Please use the settings below as a guideline and adjust as
-              necessary.
-            </AlertDescription>
-          </Box>
-        </Alert>
+        {alertVisible && (
+          <Alert status="warning" borderRadius="md" mb={4}>
+            <AlertIcon />
+            <Box flex="1">
+              <AlertTitle>Cooking times may vary</AlertTitle>
+              <AlertDescription display="block">
+                Cooking times may vary depending on your specific airfryer
+                model. Please use the settings below as a guideline and adjust
+                as necessary.
+              </AlertDescription>
+            </Box>
+            <CloseButton
+              onClick={closeAlert}
+              position="absolute"
+              right="8px"
+              top="8px"
+            />
+          </Alert>
+        )}
         <Accordion allowToggle w="full">
           {Object.entries(foodCategories).map(
             ([category, dishes], index, array) => (
