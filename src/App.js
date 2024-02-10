@@ -36,6 +36,7 @@ import {
   Tab,
   Collapse,
   CloseButton,
+  Image,
 } from "@chakra-ui/react";
 import ChickenRoast from "./assets/poultry/chickenroast.jpg";
 import Turkey from "./assets/poultry/turkey.jpg";
@@ -66,7 +67,7 @@ import ApplePie from "./assets/desserts/applepie.jpg";
 import ChocolateCake from "./assets/desserts/chocolatecake.jpg";
 import Cheesecake from "./assets/desserts/cheesecake.jpg";
 import Donuts from "./assets/desserts/donuts.jpg";
-
+import AirFryerGif from "./assets/airfryer.gif";
 
 function App() {
   const [tempUnit, setTempUnit] = useState(() => {
@@ -91,12 +92,11 @@ function App() {
   const [selectedCategory, setSelectedCategory] = useState(null); // New state for managing selected category
   const toast = useToast();
 
-  const bgColor = { light: "gray.100", dark: "blue.900" };
+  const bgColor = { light: "white", dark: "blue.900" };
   const primaryTextColor = { light: "gray.800", dark: "gray.800" };
   const secondaryTextColor = { light: "gray.800", dark: "gray.50" };
-  const accentColorPrimary = { light: "teal.600", dark: "teal.400" };
   const accentColorSecondary = { light: "lime.500", dark: "lime.300" };
- 
+
   const foodCategories = React.useMemo(
     () => ({
       Poultry: [
@@ -602,12 +602,12 @@ function App() {
           width="100%"
           bg={bgColor[colorMode]}
           p={4}
-          boxShadow="0 -2px 10px rgba(0, 0, 0, 0.1)" // Adds a slight shadow for depth
+          boxShadow="0 -2px 10px rgba(0, 0, 0, 0.1)"
           zIndex="banner"
           color={secondaryTextColor[colorMode]}
           onClick={toggleFooter}
         >
-          <VStack spacing={2}>
+          <VStack spacing={1}>
             <Icon
               as={isFooterExpanded ? FaChevronDown : FaChevronUp}
               w={6}
@@ -619,9 +619,21 @@ function App() {
                 : selectedDishName || "Converted Airfryer Settings"}
             </Text>
 
-            <Text fontSize="md">
-              Air fry for {airfryerTime} minutes at {airfryerTemp}°{tempUnit}
-            </Text>
+            {/* Flex container for GIF and text */}
+            <Flex width="100%" justifyContent="flex-start" alignItems="center">
+              <Image
+                src={AirFryerGif}
+                boxSize="70px"
+                alt="Cooking"
+                marginRight="auto"
+              />{" "}
+              {/* GIF to the left */}
+              <Text fontSize="md" marginLeft="-14" marginRight="auto">
+                {" "}
+                {/* Text centered */}
+                Air fry for {airfryerTime} minutes at {airfryerTemp}°{tempUnit}
+              </Text>
+            </Flex>
 
             <Collapse in={isFooterExpanded} animateOpacity>
               <Box
@@ -631,7 +643,7 @@ function App() {
                 w="full"
                 rounded="md"
               >
-                {/* Placeholder for detailed instructions. You can replace this with actual content based on the selected dish. */}
+                {/* Placeholder for detailed instructions. */}
                 <Text>{selectedDishInstructions}</Text>
               </Box>
             </Collapse>
