@@ -376,7 +376,6 @@ function App() {
           alignItems="center"
           onClick={() => selectFood(dish)}
         >
-          <Icon as={FaTemperatureHigh} w={5} h={5} mb={2} />
           <Text textAlign="center" fontWeight="bold">
             {dish.displayName}
           </Text>
@@ -568,7 +567,7 @@ function App() {
           ))}
         </Flex>
         {selectedCategory && (
-          <Grid templateColumns="repeat(4, 1fr)" gap={4}>
+          <Grid templateColumns="repeat(3, 1fr)" gap={4}>
             {renderDishesForCategory(selectedCategory)}
           </Grid>
         )}
