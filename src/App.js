@@ -37,6 +37,36 @@ import {
   Collapse,
   CloseButton,
 } from "@chakra-ui/react";
+import ChickenRoast from "./assets/poultry/chickenroast.jpg";
+import Turkey from "./assets/poultry/turkey.jpg";
+import Duck from "./assets/poultry/duck.jpg";
+import ChickenWings from "./assets/poultry/chickenwings.jpg";
+import FriedChicken from "./assets/poultry/friedchicken.jpg";
+import Shrimp from "./assets/seafood/shrimp.jpg";
+import Cod from "./assets/seafood/cod.jpg";
+import Salmon from "./assets/seafood/salmon.jpg";
+import Tuna from "./assets/seafood/tuna.jpg";
+import BeefRoast from "./assets/meat/beefroast.jpg";
+import LambChops from "./assets/meat/lambchops.jpg";
+import PorkLoin from "./assets/meat/porkloin.jpg";
+import Ribs from "./assets/meat/ribs.jpg";
+import BananaBread from "./assets/bakedgoods/bananabread.jpg";
+import Sourdough from "./assets/bakedgoods/sourdough.jpg";
+import Muffins from "./assets/bakedgoods/muffins.jpg";
+import GarlicBread from "./assets/bakedgoods/garlicbread.jpg";
+import StuffedPeppers from "./assets/vegetarian/stuffedpeppers.jpg";
+import CauliflowerSteak from "./assets/vegetarian/cauliflowersteak.jpg";
+import VegetableKabobs from "./assets/vegetarian/vegetablekabobs.jpg";
+import Tofu from "./assets/vegetarian/tofu.jpg";
+import Nachos from "./assets/snacks/nachos.jpg";
+import Popcorn from "./assets/snacks/popcorn.jpg";
+import PotatoChips from "./assets/snacks/potatochips.jpg";
+import MozzarellaSticks from "./assets/snacks/mozzarellasticks.jpg";
+import ApplePie from "./assets/desserts/applepie.jpg";
+import ChocolateCake from "./assets/desserts/chocolatecake.jpg";
+import Cheesecake from "./assets/desserts/cheesecake.jpg";
+import Donuts from "./assets/desserts/donuts.jpg";
+
 
 function App() {
   const [tempUnit, setTempUnit] = useState(() => {
@@ -48,8 +78,6 @@ function App() {
     return unit === "F" ? 356 : 180; // 356°F is roughly equivalent to 180°C
   };
 
-
-  
   const [ovenTemp, setOvenTemp] = useState(getDefaultOvenTemp);
   const [ovenTime, setOvenTime] = useState(60);
   const [airfryerTemp, setAirfryerTemp] = useState(0);
@@ -62,10 +90,6 @@ function App() {
   const [alertVisible, setAlertVisible] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState(null); // New state for managing selected category
   const toast = useToast();
-
-  
-
-  
 
   const bgColor = { light: "gray.100", dark: "blue.900" };
   const primaryTextColor = { light: "gray.800", dark: "gray.50" };
@@ -81,6 +105,7 @@ function App() {
           displayName: "Chicken Roast",
           temp: 200,
           time: 60,
+          image: ChickenRoast,
           instructions:
             "Place chicken in the air fryer basket. Cook at {temp} for {time} minutes, flipping halfway through.",
         },
@@ -89,6 +114,7 @@ function App() {
           displayName: "Turkey",
           temp: 180,
           time: 90,
+          image: Turkey,
           instructions:
             "Cook the turkey in the air fryer at {temp} for {time} minutes. Check internal temperature reaches 75°C.",
         },
@@ -97,6 +123,7 @@ function App() {
           displayName: "Duck",
           temp: 180,
           time: 80,
+          image: Duck,
           instructions:
             "Air fry duck at {temp} for {time} minutes. Ensure skin is crispy and internal temperature is safe.",
         },
@@ -105,6 +132,7 @@ function App() {
           displayName: "Chicken Wings",
           temp: 190,
           time: 25,
+          image: ChickenWings,
           instructions:
             "Cook wings at {temp} for {time} minutes, turning them halfway through the cooking time.",
         },
@@ -113,6 +141,7 @@ function App() {
           displayName: "Fried Chicken",
           temp: 180,
           time: 20,
+          image: FriedChicken,
           instructions:
             "Place chicken in the basket. Cook at {temp} for {time} minutes, turning halfway through.",
         },
@@ -123,6 +152,7 @@ function App() {
           displayName: "Shrimp",
           temp: 200,
           time: 10,
+          image: Shrimp,
           instructions:
             "Cook shrimp at {temp} for {time} minutes, until pink and cooked through.",
         },
@@ -131,6 +161,7 @@ function App() {
           displayName: "Cod",
           temp: 180,
           time: 15,
+          image: Cod,
           instructions:
             "Place cod fillets in the basket, cook at {temp} for {time} minutes until flaky.",
         },
@@ -139,6 +170,7 @@ function App() {
           displayName: "Salmon Fillets",
           temp: 180,
           time: 12,
+          image: Salmon,
           instructions:
             "Air fry salmon at {temp} for {time} minutes, or until it easily flakes with a fork.",
         },
@@ -147,6 +179,7 @@ function App() {
           displayName: "Tuna Steaks",
           temp: 190,
           time: 8,
+          image: Tuna,
           instructions:
             "Cook tuna steaks at {temp} for {time} minutes, turning once halfway through.",
         },
@@ -157,6 +190,7 @@ function App() {
           displayName: "Beef Roast",
           temp: 195,
           time: 75,
+          image: BeefRoast,
           instructions:
             "Cook the beef roast in the air fryer at {temp} for {time} minutes. Turn halfway through cooking. Ensure the internal temperature reaches at least 63°C for medium-rare.",
         },
@@ -165,6 +199,7 @@ function App() {
           displayName: "Lamb Chops",
           temp: 200,
           time: 25,
+          image: LambChops,
           instructions:
             "Air fry lamb chops at {temp} for {time} minutes, turning once halfway through. Aim for an internal temperature of 63°C for medium-rare.",
         },
@@ -173,6 +208,7 @@ function App() {
           displayName: "Pork Loin",
           temp: 190,
           time: 60,
+          image: PorkLoin,
           instructions:
             "Place pork loin in the air fryer. Cook at {temp} for {time} minutes, flipping halfway. Check that internal temperature reaches at least 71°C.",
         },
@@ -181,6 +217,7 @@ function App() {
           displayName: "Ribs",
           temp: 200,
           time: 40,
+          image: Ribs,
           instructions:
             "Cook ribs at {temp} for {time} minutes, turning them occasionally. Ensure they're cooked through and tender.",
         },
@@ -191,6 +228,7 @@ function App() {
           displayName: "Banana Bread",
           temp: 175,
           time: 60,
+          image: BananaBread,
           instructions:
             "Air fry banana bread at {temp} for {time} minutes. Check doneness with a toothpick inserted into the center coming out clean.",
         },
@@ -199,6 +237,7 @@ function App() {
           displayName: "Sourdough",
           temp: 220,
           time: 30,
+          image: Sourdough,
           instructions:
             "Place sourdough loaf in the air fryer. Cook at {temp} for {time} minutes until the crust is golden and sounds hollow when tapped.",
         },
@@ -207,6 +246,7 @@ function App() {
           displayName: "Muffins",
           temp: 180,
           time: 20,
+          image: Muffins,
           instructions:
             "Cook muffins at {temp} for {time} minutes, or until a toothpick comes out clean. Allow to cool before serving.",
         },
@@ -215,6 +255,7 @@ function App() {
           displayName: "Garlic Bread",
           temp: 175,
           time: 10,
+          image: GarlicBread,
           instructions:
             "Air fry garlic bread at {temp} for {time} minutes until golden brown and crispy.",
         },
@@ -225,6 +266,7 @@ function App() {
           displayName: "Stuffed Peppers",
           temp: 175,
           time: 25,
+          image: StuffedPeppers,
           instructions:
             "Cook stuffed peppers at {temp} for {time} minutes, until peppers are tender and filling is heated through.",
         },
@@ -233,6 +275,7 @@ function App() {
           displayName: "Cauliflower Steak",
           temp: 200,
           time: 20,
+          image: CauliflowerSteak,
           instructions:
             "Air fry cauliflower steaks at {temp} for {time} minutes, flipping halfway through, until edges are crispy and browned.",
         },
@@ -241,6 +284,7 @@ function App() {
           displayName: "Vegetable Kabobs",
           temp: 180,
           time: 15,
+          image: VegetableKabobs,
           instructions:
             "Cook vegetable kabobs at {temp} for {time} minutes, turning occasionally, until vegetables are tender and slightly charred.",
         },
@@ -249,6 +293,7 @@ function App() {
           displayName: "Tofu",
           temp: 180,
           time: 15,
+          image: Tofu,
           instructions:
             "Place tofu in the air fryer and cook at {temp} for {time} minutes, flipping halfway through, until all sides are crispy and golden.",
         },
@@ -259,6 +304,7 @@ function App() {
           displayName: "Nachos",
           temp: 200,
           time: 10,
+          image: Nachos,
           instructions:
             "Layer nachos in the air fryer basket. Cook at {temp} for {time} minutes until cheese is melted and chips are crispy.",
         },
@@ -267,6 +313,7 @@ function App() {
           displayName: "Popcorn",
           temp: 190,
           time: 15,
+          image: Popcorn,
           instructions:
             "Place popcorn kernels in a suitable container or use air fryer popcorn accessories. Cook at {temp} for {time} minutes or until popping slows.",
         },
@@ -275,6 +322,7 @@ function App() {
           displayName: "Potato Chips",
           temp: 190,
           time: 10,
+          image: PotatoChips,
           instructions:
             "Cook potato chips at {temp} for {time} minutes, shaking the basket halfway through until chips are crispy and golden.",
         },
@@ -283,6 +331,7 @@ function App() {
           displayName: "Mozzarella Sticks",
           temp: 200,
           time: 8,
+          image: MozzarellaSticks,
           instructions:
             "Air fry mozzarella sticks at {temp} for {time} minutes, turning once halfway through, until golden and cheese begins to ooze.",
         },
@@ -293,6 +342,7 @@ function App() {
           displayName: "Apple Pie",
           temp: 175,
           time: 45,
+          image: ApplePie,
           instructions:
             "Cook apple pie at {temp} for {time} minutes, until the crust is golden and the filling is bubbly.",
         },
@@ -301,6 +351,7 @@ function App() {
           displayName: "Chocolate Cake",
           temp: 180,
           time: 30,
+          image: ChocolateCake,
           instructions:
             "Air fry chocolate cake at {temp} for {time} minutes. Check doneness with a toothpick coming out clean.",
         },
@@ -309,6 +360,7 @@ function App() {
           displayName: "Cheesecake",
           temp: 160,
           time: 30,
+          image: Cheesecake,
           instructions:
             "Cook cheesecake at {temp} for {time} minutes until the edges are set but the center is slightly wobbly.",
         },
@@ -317,6 +369,7 @@ function App() {
           displayName: "Donuts",
           temp: 180,
           time: 10,
+          image: Donuts,
           instructions:
             "Air fry donuts at {temp} for {time} minutes, until they are golden brown and cooked through.",
         },
@@ -378,27 +431,50 @@ function App() {
       <GridItem w="100%" key={dish.key}>
         <Box
           as="button"
-          w="80px"
-          h="80px"
-          minW="100px"
-          p={4}
-          bg={accentColorPrimary[colorMode]}
-          color={primaryTextColor[colorMode]}
+          position="relative"
+          w="100px" // Adjust width as needed
+          h="100px" // Adjust height as needed
+          p={0}
           rounded="md"
-          shadow="md"
-          display="flex"
-          flexDirection="column"
-          justifyContent="center"
-          alignItems="center"
+          overflow="hidden" // Ensure the background does not bleed outside the rounded corners
           onClick={() => selectFood(dish)}
         >
-          <Text
-            textAlign="center"
-            fontWeight="bold"
-            color={secondaryTextColor[colorMode]}
+          {/* Background Box with Blur */}
+          <Box
+            w="full"
+            h="full"
+            position="absolute"
+            top="0"
+            left="0"
+            backgroundImage={`url(${dish.image})`}
+            backgroundSize="cover"
+            backgroundPosition="center"
+            filter="blur(0.7px)" // Adjust the blur intensity as needed
+            zIndex="0"
+          ></Box>
+
+          {/* Content Box */}
+          <Box
+            position="relative"
+            w="full"
+            h="full"
+            display="flex"
+            flexDirection="column"
+            justifyContent="center"
+            alignItems="center"
+            p={4}
+            zIndex="1" // Ensure the content is above the blurred background
           >
-            {dish.displayName}
-          </Text>
+            <Text
+              textAlign="center"
+              fontWeight="bold"
+              color={primaryTextColor[colorMode]}
+              bg="rgba(255, 255, 255, 0.8)"
+              borderRadius="md"
+            >
+              {dish.displayName}
+            </Text>
+          </Box>
         </Box>
       </GridItem>
     ));
