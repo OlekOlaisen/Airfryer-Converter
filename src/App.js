@@ -26,18 +26,7 @@ import {
   FaChevronUp,
   FaChevronDown,
 } from "react-icons/fa";
-import {
-  Alert,
-  AlertIcon,
-  AlertTitle,
-  AlertDescription,
-  Tabs,
-  TabList,
-  Tab,
-  Collapse,
-  CloseButton,
-  Image,
-} from "@chakra-ui/react";
+import { Tabs, TabList, Tab, Collapse, Image } from "@chakra-ui/react";
 import ChickenRoast from "./assets/poultry/chickenroast.jpg";
 import Turkey from "./assets/poultry/turkey.jpg";
 import Duck from "./assets/poultry/duck.jpg";
@@ -88,9 +77,22 @@ function App() {
   const [isCustomSetting, setIsCustomSetting] = useState(false);
   const [isFooterExpanded, setIsFooterExpanded] = useState(false);
   const [selectedDishInstructions, setSelectedDishInstructions] = useState("");
-  const [alertVisible, setAlertVisible] = useState(true);
+
   const [selectedCategory, setSelectedCategory] = useState(null); // New state for managing selected category
   const toast = useToast();
+
+  useEffect(() => {
+    // Display the alert as a toast on initial load
+    toast({
+      title: "Cooking times may vary",
+      description:
+        "Cooking times may vary depending on your specific airfryer model. Please use the settings below as a guideline and adjust as necessary.",
+      status: "warning",
+      duration: 5000, // Duration in milliseconds; 9000 for 9 seconds
+      isClosable: true,
+      position: "top", // Display at the top
+    });
+  }, [toast]);
 
   const bgColor = { light: "white", dark: "blue.900" };
   const primaryTextColor = { light: "gray.800", dark: "gray.800" };
@@ -513,11 +515,6 @@ function App() {
     }
   };
 
-  const closeAlert = () => {
-    console.log("Closing alert"); // Debugging line
-    setAlertVisible(false);
-  };
-
   const defaultTabIndex = parseInt(
     localStorage.getItem("tempUnitIndex") || "0",
     10
@@ -650,26 +647,17 @@ function App() {
           </VStack>
         </Box>
 
-        {alertVisible && (
-          <Alert status="warning" borderRadius="md" mb={4}>
-            <AlertIcon />
-            <Box flex="1">
-              <AlertTitle>Cooking times may vary</AlertTitle>
-              <AlertDescription display="block">
-                Cooking times may vary depending on your specific airfryer
-                model. Please use the settings below as a guideline and adjust
-                as necessary.
-              </AlertDescription>
-            </Box>
-            <CloseButton
-              onClick={closeAlert}
-              position="absolute"
-              right="8px"
-              top="8px"
-            />
-          </Alert>
-        )}
         <Flex wrap="wrap" justifyContent="center" gap={2}>
+          <Text
+            fontSize="xl"
+            fontWeight="bold"
+            color={secondaryTextColor[colorMode]}
+            textAlign="center"
+            w="full"
+            mb={4}
+          >
+            Select a Dish to Air Fry
+          </Text>
           {Object.keys(foodCategories).map((category) => (
             <Tag
               size="lg"
