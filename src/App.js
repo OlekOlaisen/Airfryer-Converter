@@ -8,6 +8,7 @@ import {
   Text,
   VStack,
   FormControl,
+  Flex,
   Icon,
   useColorMode,
   Button,
@@ -391,24 +392,24 @@ function App() {
   return (
     <Box p={5} bg={colorMode === "light" ? "gray.50" : "gray.800"} minH="100vh">
       <VStack spacing={4}>
-        <FormControl display="flex" alignItems="center">
-          <Icon as={FaTemperatureHigh} mr={2} color="brand.500" />
-
+        <Flex width="100%" justifyContent="space-between">
           <Tabs
             variant="line"
-            colorScheme="red"
+            colorScheme="teal"
             onChange={handleTempUnitChange}
             defaultIndex={defaultTabIndex}
           >
+            
             <TabList>
               <Tab>°C</Tab>
               <Tab>°F</Tab>
             </TabList>
           </Tabs>
-        </FormControl>
-        <Button onClick={toggleColorMode} size="sm" alignSelf="flex-end">
-          {colorMode === "light" ? <Icon as={FaMoon} /> : <Icon as={FaSun} />}
-        </Button>
+          <Button onClick={toggleColorMode} size="sm" alignSelf="flex-end">
+            {colorMode === "light" ? <Icon as={FaMoon} /> : <Icon as={FaSun} />}
+          </Button>
+        </Flex>
+
         <Text fontSize="2xl" fontWeight="bold" color="brand.500">
           Oven to Airfryer Cooking Time
         </Text>
