@@ -80,8 +80,6 @@ function App() {
   const [selectedCategory, setSelectedCategory] = useState(null); // New state for managing selected category
   const toast = useToast();
 
-  
-
   useEffect(() => {
     // Display the alert as a toast on initial load
     toast({
@@ -562,9 +560,7 @@ function App() {
             setIsCustomSetting(true);
             setSelectedDishInstructions(""); // Reset instructions
             setIsFooterExpanded(false); // Collapse the footer
-            setSelectedDishImage(
-              "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/w8AAwB/QC+3bvwAAAAASUVORK5CYII="
-            ); // Set to a blank white image
+            setSelectedDishImage(null);
           }}
           colorScheme="teal"
         >
@@ -586,9 +582,7 @@ function App() {
             setIsCustomSetting(true);
             setSelectedDishInstructions(""); // Reset instructions
             setIsFooterExpanded(false); // Collapse the footer
-            setSelectedDishImage(
-              "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/w8AAwB/QC+3bvwAAAAASUVORK5CYII="
-            );
+            setSelectedDishImage(null);
           }}
           colorScheme="teal"
         >
@@ -625,13 +619,20 @@ function App() {
 
             {/* Flex container for GIF and text */}
             <Flex width="100%" justifyContent="flex-start" alignItems="center">
-              {selectedDishName && (
+              {selectedDishImage ? (
                 <Image
                   src={selectedDishImage}
                   boxSize="100px"
                   alt="Selected dish image"
                   marginRight="auto"
                   rounded="md"
+                />
+              ) : (
+                <Box
+                  boxSize="100px"
+                  marginRight="auto"
+                  rounded="md"
+                  background="transparent" // Ensures the space is allocated but transparent
                 />
               )}{" "}
               {/* GIF to the left */}
