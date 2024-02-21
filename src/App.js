@@ -662,8 +662,6 @@ function App() {
               )}{" "}
               {/* GIF to the left */}
               <Text fontSize="md">
-                {" "}
-                {/* Text centered */}
                 Air fry for{" "}
                 <span
                   className="timeHeat"
@@ -672,11 +670,19 @@ function App() {
                   {airfryerTime}
                 </span>{" "}
                 minutes
-                <Text
-                  className="timeHeat"
-                  color={secondaryTextColor[colorMode]}
-                >
-                  <span className="at">at </span> {airfryerTemp}°{tempUnit}
+                <Text className="textDegrees">
+                  <span
+                    className="at"
+                    style={{ marginLeft: "4px", marginRight: "2px" }}
+                  >
+                    at
+                  </span>
+                  <span
+                    className="timeHeat"
+                    color={secondaryTextColor[colorMode]}
+                  >
+                    {airfryerTemp}°{tempUnit}
+                  </span>
                 </Text>
               </Text>
               <Box

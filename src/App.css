@@ -8,12 +8,13 @@
   font-size: 1.5rem;
   font-weight: 600;
   text-align: center;
-  color: orangered;
+  color: #dd6b20;
 }
 
 .at {
   font-size: 1rem;
   font-weight: 400;
+  color: '#444'
 }
 
 .dishImage {  
@@ -32,4 +33,8 @@
   
   margin: 10px 0;
   font-style: italic;
+}
+
+.textDegrees {
+  text-align: center;
 }
