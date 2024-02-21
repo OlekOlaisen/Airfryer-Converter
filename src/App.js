@@ -584,7 +584,7 @@ function App() {
           onClick={toggleSliders}
           size="sm"
           mb="4"
-          minW="300px"
+          minW="350px"
           className="CustomButton"
           colorScheme="orange"
         >
@@ -598,9 +598,13 @@ function App() {
         </Button>
 
         <Collapse in={isSlidersExpanded} animateOpacity>
-          <Box width="full" minW="300px" mx="auto">
+          <Box width="full" minW="300px">
             <Text>
-              Oven Temperature {ovenTemp} °{tempUnit}:
+              Oven Temperature:{" "}
+              <b>
+                {ovenTemp} °{tempUnit}
+              </b>
+              
             </Text>
             <Slider
               aria-label="oven-temp-slider"
@@ -623,7 +627,9 @@ function App() {
                 <Box color="orange.500" as={FaTemperatureHigh} />
               </SliderThumb>
             </Slider>
-            <Text>Oven Cooking Time: {ovenTime} minutes </Text>
+            <Text>
+              Oven Cooking Time: <b>{ovenTime} minutes</b>{" "}
+            </Text>
             <Slider
               aria-label="oven-time-slider"
               min={10}
