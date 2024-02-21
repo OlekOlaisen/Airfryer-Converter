@@ -604,7 +604,6 @@ function App() {
               <b>
                 {ovenTemp} °{tempUnit}
               </b>
-              
             </Text>
             <Slider
               aria-label="oven-temp-slider"
@@ -689,6 +688,8 @@ function App() {
                 <Image
                   src={selectedDishImage}
                   boxSize="100px"
+                  objectFit="cover" // Ensures the image covers the area without warping
+                  objectPosition="center"
                   alt="Selected dish image"
                   rounded="md"
                   className={
