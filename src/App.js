@@ -656,6 +656,7 @@ function App() {
                 <Box
                   boxSize="80px"
                   marginRight="auto"
+                  marginLeft="5"
                   rounded="md"
                   background="transparent" // Ensures the space is allocated but transparent
                 />
