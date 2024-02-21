@@ -632,7 +632,7 @@ function App() {
             </Text>
             <Slider
               aria-label="oven-time-slider"
-              min={10}
+              min={0}
               max={120}
               value={ovenTime}
               onChange={(val) => {
@@ -688,7 +688,7 @@ function App() {
               {selectedDishImage ? (
                 <Image
                   src={selectedDishImage}
-                  boxSize="80px"
+                  boxSize="100px"
                   alt="Selected dish image"
                   rounded="md"
                   className={
@@ -765,7 +765,7 @@ function App() {
             w="full"
             mb={4}
           >
-            Select a Dish to Air Fry
+            Select a dish
           </Text>
           {Object.keys(foodCategories).map((category) => (
             <Tag
