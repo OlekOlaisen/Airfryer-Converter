@@ -433,11 +433,12 @@ function App() {
 
     toast({
       title: `${displayName} applied`,
-      description: `Set Air fryer to ${displayTemp}°${tempUnit} for ${calculatedTime} minutes.`,
+      description: `Set Airfryer to ${displayTemp}°${tempUnit} for ${calculatedTime} minutes.`,
       status: "info",
       duration: 2000,
       isClosable: true,
       position: "top",
+      colorScheme: colorMode === "light" ? "orange" : "blue",
     });
   };
 
@@ -547,7 +548,7 @@ function App() {
         <Flex width="100%" justifyContent="space-between">
           <Tabs
             variant="line"
-            colorScheme="teal"
+            colorScheme="orange"
             onChange={handleTempUnitChange}
             defaultIndex={defaultTabIndex}
           >
@@ -584,13 +585,13 @@ function App() {
             setIsFooterExpanded(false); // Collapse the footer
             setSelectedDishImage(null);
           }}
-          colorScheme="teal"
+          colorScheme="orange"
         >
           <SliderTrack>
             <SliderFilledTrack />
           </SliderTrack>
           <SliderThumb boxSize={6}>
-            <Box color="teal.500" as={FaTemperatureHigh} />
+            <Box color="orange.500" as={FaTemperatureHigh} />
           </SliderThumb>
         </Slider>
         <Text>Oven Cooking Time: {ovenTime} minutes </Text>
@@ -606,13 +607,13 @@ function App() {
             setIsFooterExpanded(false); // Collapse the footer
             setSelectedDishImage(null);
           }}
-          colorScheme="teal"
+          colorScheme="orange"
         >
           <SliderTrack>
             <SliderFilledTrack />
           </SliderTrack>
           <SliderThumb boxSize={6}>
-            <Box color="teal.500" as={FaClock} />
+            <Box color="orange.500" as={FaClock} />
           </SliderThumb>
         </Slider>
 
@@ -695,7 +696,7 @@ function App() {
                 rounded="md"
               >
                 {/* Placeholder for detailed instructions. */}
-                <Text>{selectedDishInstructions}</Text>
+                <Text className="instructions">{selectedDishInstructions}</Text>
               </Box>
             </Collapse>
           </VStack>
@@ -718,7 +719,7 @@ function App() {
               key={category}
               borderRadius="full"
               variant="solid"
-              colorScheme="teal"
+              colorScheme="orange"
               onClick={() => setSelectedCategory(category)}
               cursor="pointer"
             >

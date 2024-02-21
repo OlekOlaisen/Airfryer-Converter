@@ -8,6 +8,7 @@
   font-size: 1.5rem;
   font-weight: 600;
   text-align: center;
+  color: orangered;
 }
 
 .at {
@@ -15,8 +16,7 @@
   font-weight: 400;
 }
 
-.dishImage {
-  
+.dishImage {  
   margin-bottom: 10px;
 }
 
@@ -24,4 +24,12 @@
   display: flex;
   flex-direction: row;
   justify-content: space-around;
+}
+
+.instructions {
+  font-size: 1.1rem;
+  font-weight: 400;
+  
+  margin: 10px 0;
+  font-style: italic;
 }
