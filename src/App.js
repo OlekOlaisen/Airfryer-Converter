@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import "./App.css";
 import {
   Box,
   Slider,
@@ -410,10 +411,10 @@ function App() {
     // Removed setIsFooterExpanded(true) to prevent automatic expansion on dish selection
 
     toast({
-      title: `${displayName} settings applied.`,
-      description: `Air fryer set to ${displayTemp}°${tempUnit} for ${calculatedTime} minutes.`,
+      title: `${displayName} applied`,
+      description: `Set Air fryer to ${displayTemp}°${tempUnit} for ${calculatedTime} minutes.`,
       status: "info",
-      duration: 1500,
+      duration: 2000,
       isClosable: true,
       position: "top",
     });
@@ -639,7 +640,20 @@ function App() {
               <Text fontSize="md" marginLeft="-14" marginRight="auto">
                 {" "}
                 {/* Text centered */}
-                Air fry for {airfryerTime} minutes at {airfryerTemp}°{tempUnit}
+                Air fry for{" "}
+                <span
+                  className="timeHeat"
+                  color={secondaryTextColor[colorMode]}
+                >
+                  {airfryerTime}
+                </span>{" "}
+                minutes at{" "}
+                <span
+                  className="timeHeat"
+                  color={secondaryTextColor[colorMode]}
+                >
+                  {airfryerTemp}°{tempUnit}
+                </span>
               </Text>
             </Flex>
 
