@@ -57,7 +57,6 @@ import ChocolateCake from "./assets/desserts/chocolatecake.jpg";
 import Cheesecake from "./assets/desserts/cheesecake.jpg";
 import Donuts from "./assets/desserts/donuts.jpg";
 
-
 function App() {
   const [tempUnit, setTempUnit] = useState(() => {
     return localStorage.getItem("tempUnit") || "C";
@@ -80,6 +79,8 @@ function App() {
   const [selectedDishImage, setSelectedDishImage] = useState("");
   const [selectedCategory, setSelectedCategory] = useState(null); // New state for managing selected category
   const toast = useToast();
+
+  
 
   useEffect(() => {
     // Display the alert as a toast on initial load
@@ -561,6 +562,9 @@ function App() {
             setIsCustomSetting(true);
             setSelectedDishInstructions(""); // Reset instructions
             setIsFooterExpanded(false); // Collapse the footer
+            setSelectedDishImage(
+              "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/w8AAwB/QC+3bvwAAAAASUVORK5CYII="
+            ); // Set to a blank white image
           }}
           colorScheme="teal"
         >
@@ -582,6 +586,9 @@ function App() {
             setIsCustomSetting(true);
             setSelectedDishInstructions(""); // Reset instructions
             setIsFooterExpanded(false); // Collapse the footer
+            setSelectedDishImage(
+              "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/w8AAwB/QC+3bvwAAAAASUVORK5CYII="
+            );
           }}
           colorScheme="teal"
         >
