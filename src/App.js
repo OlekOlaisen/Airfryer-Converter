@@ -649,6 +649,7 @@ function App() {
                   boxSize="80px"
                   alt="Selected dish image"
                   marginRight="auto"
+                  marginLeft="5"
                   rounded="md"
                 />
               ) : (
