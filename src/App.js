@@ -670,13 +670,13 @@ function App() {
                 >
                   {airfryerTime}
                 </span>{" "}
-                minutes at{" "}
-                <span
+                minutes
+                <Text
                   className="timeHeat"
                   color={secondaryTextColor[colorMode]}
                 >
-                  {airfryerTemp}°{tempUnit}
-                </span>
+                  <span className="at">at </span> {airfryerTemp}°{tempUnit}
+                </Text>
               </Text>
             </Flex>
 
