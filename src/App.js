@@ -646,14 +646,14 @@ function App() {
               {selectedDishImage ? (
                 <Image
                   src={selectedDishImage}
-                  boxSize="100px"
+                  boxSize="80px"
                   alt="Selected dish image"
                   marginRight="auto"
                   rounded="md"
                 />
               ) : (
                 <Box
-                  boxSize="100px"
+                  boxSize="80px"
                   marginRight="auto"
                   rounded="md"
                   background="transparent" // Ensures the space is allocated but transparent
