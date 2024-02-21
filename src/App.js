@@ -78,10 +78,10 @@ function App() {
   const [isFooterExpanded, setIsFooterExpanded] = useState(false);
   const [selectedDishInstructions, setSelectedDishInstructions] = useState("");
   const [selectedDishImage, setSelectedDishImage] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState(null); 
+  const [selectedCategory, setSelectedCategory] = useState(null);
   const [startTouchY, setStartTouchY] = useState(null);
+  const [isSlidersExpanded, setIsSlidersExpanded] = useState(false);
   const toast = useToast();
-
 
   useEffect(() => {
     // Display the alert as a toast on initial load
@@ -446,6 +446,10 @@ function App() {
     setIsFooterExpanded(!isFooterExpanded);
   };
 
+  const toggleSliders = () => {
+    setIsSlidersExpanded(!isSlidersExpanded);
+  };
+
   const renderDishesForCategory = (category) => {
     // Ensure dishes are only rendered when a category is selected
     if (!category) return null; // Early return if no category is selected
@@ -562,61 +566,73 @@ function App() {
           </Button>
         </Flex>
 
-        <Text
-          fontSize="2xl"
-          fontWeight="bold"
-          color={secondaryTextColor[colorMode]}
+        <Button
+          onClick={toggleSliders}
+          size="sm"
+          mb="4"
+          minW="300px"
+          className="CustomButton"
+          color="orange"
         >
-          Oven to Airfryer Cooking Time
-        </Text>
+          Custom Oven to Airfryer Converter
+          <Icon
+            as={isSlidersExpanded ? FaChevronDown : FaChevronUp}
+            w={4}
+            h={4}
+            ml={2}
+          />
+        </Button>
 
-        <Text>
-          Oven Temperature {ovenTemp} °{tempUnit}:
-        </Text>
-        <Slider
-          aria-label="oven-temp-slider"
-          min={tempUnit === "C" ? 100 : celsiusToFahrenheit(100)}
-          max={tempUnit === "C" ? 250 : celsiusToFahrenheit(250)}
-          value={ovenTemp}
-          onChange={(val) => {
-            setOvenTemp(val);
-            setIsCustomSetting(true);
-            setSelectedDishInstructions(""); // Reset instructions
-            setIsFooterExpanded(false); // Collapse the footer
-            setSelectedDishImage(null);
-          }}
-          colorScheme="orange"
-        >
-          <SliderTrack>
-            <SliderFilledTrack />
-          </SliderTrack>
-          <SliderThumb boxSize={6}>
-            <Box color="orange.500" as={FaTemperatureHigh} />
-          </SliderThumb>
-        </Slider>
-        <Text>Oven Cooking Time: {ovenTime} minutes </Text>
-        <Slider
-          aria-label="oven-time-slider"
-          min={10}
-          max={120}
-          value={ovenTime}
-          onChange={(val) => {
-            setOvenTime(val);
-            setIsCustomSetting(true);
-            setSelectedDishInstructions(""); // Reset instructions
-            setIsFooterExpanded(false); // Collapse the footer
-            setSelectedDishImage(null);
-          }}
-          colorScheme="orange"
-        >
-          <SliderTrack>
-            <SliderFilledTrack />
-          </SliderTrack>
-          <SliderThumb boxSize={6}>
-            <Box color="orange.500" as={FaClock} />
-          </SliderThumb>
-        </Slider>
-
+        <Collapse in={isSlidersExpanded} animateOpacity>
+          <Box width="full" minW="300px" mx="auto">
+            <Text>
+              Oven Temperature {ovenTemp} °{tempUnit}:
+            </Text>
+            <Slider
+              aria-label="oven-temp-slider"
+              min={tempUnit === "C" ? 100 : celsiusToFahrenheit(100)}
+              max={tempUnit === "C" ? 250 : celsiusToFahrenheit(250)}
+              value={ovenTemp}
+              onChange={(val) => {
+                setOvenTemp(val);
+                setIsCustomSetting(true);
+                setSelectedDishInstructions(""); // Reset instructions
+                setIsFooterExpanded(false); // Collapse the footer
+                setSelectedDishImage(null);
+              }}
+              colorScheme="orange"
+            >
+              <SliderTrack>
+                <SliderFilledTrack />
+              </SliderTrack>
+              <SliderThumb boxSize={6}>
+                <Box color="orange.500" as={FaTemperatureHigh} />
+              </SliderThumb>
+            </Slider>
+            <Text>Oven Cooking Time: {ovenTime} minutes </Text>
+            <Slider
+              aria-label="oven-time-slider"
+              min={10}
+              max={120}
+              value={ovenTime}
+              onChange={(val) => {
+                setOvenTime(val);
+                setIsCustomSetting(true);
+                setSelectedDishInstructions(""); // Reset instructions
+                setIsFooterExpanded(false); // Collapse the footer
+                setSelectedDishImage(null);
+              }}
+              colorScheme="orange"
+            >
+              <SliderTrack>
+                <SliderFilledTrack />
+              </SliderTrack>
+              <SliderThumb boxSize={6}>
+                <Box color="orange.500" as={FaClock} />
+              </SliderThumb>
+            </Slider>
+          </Box>
+        </Collapse>
         <Box
           position="fixed"
           bottom="0"
@@ -727,6 +743,9 @@ function App() {
               variant="solid"
               colorScheme="orange"
               onClick={() => setSelectedCategory(category)}
+              className={`${
+                selectedCategory === category ? "selectedCategory" : ""
+              } tagHover`}
               cursor="pointer"
             >
               <TagLabel>{category}</TagLabel>
