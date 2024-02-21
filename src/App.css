@@ -14,3 +14,14 @@
   font-size: 1rem;
   font-weight: 500;
 }
+
+.dishImage {
+  
+  margin-bottom: 10px;
+}
+
+.footer-image {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}

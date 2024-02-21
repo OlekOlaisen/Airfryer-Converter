@@ -642,27 +642,25 @@ function App() {
             </Text>
 
             {/* Flex container for GIF and text */}
-            <Flex width="100%" justifyContent="flex-start" alignItems="center">
+            <Box width="100%" className="footer-image">
               {selectedDishImage ? (
                 <Image
                   src={selectedDishImage}
                   boxSize="80px"
                   alt="Selected dish image"
-                  marginRight="auto"
-                  marginLeft="5"
                   rounded="md"
+                  className="dishImage"
                 />
               ) : (
                 <Box
                   boxSize="80px"
-                  marginRight="auto"
-                  marginLeft="5"
                   rounded="md"
-                  background="transparent" // Ensures the space is allocated but transparent
+                  background="transparent"
+                  className="dishImage" // Ensures the space is allocated but transparent
                 />
               )}{" "}
               {/* GIF to the left */}
-              <Text fontSize="md" marginLeft="-14" marginRight="auto">
+              <Text fontSize="md">
                 {" "}
                 {/* Text centered */}
                 Air fry for{" "}
@@ -680,7 +678,13 @@ function App() {
                   <span className="at">at </span> {airfryerTemp}°{tempUnit}
                 </Text>
               </Text>
-            </Flex>
+              <Box
+                boxSize="80px"
+                rounded="md"
+                background="transparent"
+                className="dishImage"
+              ></Box>
+            </Box>
 
             <Collapse in={isFooterExpanded} animateOpacity>
               <Box
