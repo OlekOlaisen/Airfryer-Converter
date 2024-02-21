@@ -81,6 +81,10 @@ function App() {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [startTouchY, setStartTouchY] = useState(null);
   const [isSlidersExpanded, setIsSlidersExpanded] = useState(false);
+  const [animateText, setAnimateText] = useState(false);
+  const [animateImage, setAnimateImage] = useState(false);
+  const [animateTextTime, setAnimateTextTime] = useState(false);
+  const [animateUnit, setAnimateUnit] = useState(false);
   const toast = useToast();
 
   useEffect(() => {
@@ -401,6 +405,22 @@ function App() {
     }
   };
 
+  
+
+  const triggerAnimation = () => {
+    setAnimateText(false);
+    setAnimateImage(false);
+    setAnimateTextTime(false);
+    setAnimateUnit(false);
+    // Reset the animation trigger after a short delay
+    setTimeout(() => {
+      setAnimateText(true);
+      setAnimateImage(true);
+      setAnimateTextTime(true);
+      setAnimateUnit(true);
+    }, 0); 
+  };
+
   const selectFood = (dish) => {
     const { temp, time, displayName, instructions } = dish;
 
@@ -429,17 +449,11 @@ function App() {
     setSelectedDishName(displayName);
     setSelectedDishInstructions(dynamicInstructions); // Use the dynamically replaced instructions with unit
     setIsCustomSetting(false);
-    // Removed setIsFooterExpanded(true) to prevent automatic expansion on dish selection
-
-    toast({
-      title: `${displayName} applied`,
-      description: `Set Airfryer to ${displayTemp}°${tempUnit} for ${calculatedTime} minutes.`,
-      status: "info",
-      duration: 2000,
-      isClosable: true,
-      position: "top",
-      colorScheme: colorMode === "light" ? "orange" : "blue",
-    });
+    setAnimateText(!animateText);
+    setAnimateImage(!animateImage);
+    setAnimateTextTime(!animateTextTime);
+    setAnimateUnit(!animateUnit);
+    triggerAnimation();
   };
 
   const toggleFooter = () => {
@@ -572,7 +586,7 @@ function App() {
           mb="4"
           minW="300px"
           className="CustomButton"
-          color="orange"
+          colorScheme="orange"
         >
           Custom Oven to Airfryer Converter
           <Icon
@@ -643,8 +657,8 @@ function App() {
           zIndex="banner"
           color={secondaryTextColor[colorMode]}
           onClick={toggleFooter}
-          onTouchStart={handleTouchStart} // Listen for the start of a touch
-          onTouchEnd={handleTouchEnd} // Listen for the end of a touch
+          onTouchStart={handleTouchStart}
+          onTouchEnd={handleTouchEnd}
         >
           <VStack spacing={1}>
             <Icon
@@ -652,7 +666,12 @@ function App() {
               w={6}
               h={6}
             />
-            <Text fontSize="xl" fontWeight="bold" textAlign="center">
+            <Text
+              fontSize="xl"
+              fontWeight="bold"
+              textAlign="center"
+              className={animateText ? "animate-fade-in-up" : ""}
+            >
               {isCustomSetting
                 ? "Custom Oven to AirFryer"
                 : selectedDishName || "Converted Airfryer Settings"}
@@ -666,7 +685,9 @@ function App() {
                   boxSize="80px"
                   alt="Selected dish image"
                   rounded="md"
-                  className="dishImage"
+                  className={
+                    animateImage ? "dishImage animate-fade-in-up" : "dishImage"
+                  }
                 />
               ) : (
                 <Box
@@ -683,7 +704,12 @@ function App() {
                   className="timeHeat"
                   color={secondaryTextColor[colorMode]}
                 >
-                  {airfryerTime}
+                  <span className={animateTextTime ? "animate-fade-in-up" : ""}>
+                    {" "}
+                    <span className={animateUnit ? "animate-fade-in-up" : ""}>
+                      {airfryerTime}
+                    </span>
+                  </span>
                 </span>{" "}
                 minutes
                 <Text className="textDegrees">
