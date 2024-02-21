@@ -78,8 +78,10 @@ function App() {
   const [isFooterExpanded, setIsFooterExpanded] = useState(false);
   const [selectedDishInstructions, setSelectedDishInstructions] = useState("");
   const [selectedDishImage, setSelectedDishImage] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState(null); // New state for managing selected category
+  const [selectedCategory, setSelectedCategory] = useState(null); 
+  const [startTouchY, setStartTouchY] = useState(null);
   const toast = useToast();
+
 
   useEffect(() => {
     // Display the alert as a toast on initial load
@@ -380,6 +382,25 @@ function App() {
     []
   );
 
+  const handleTouchStart = (e) => {
+    const touchStartY = e.touches[0].clientY; // Get the starting Y-coordinate
+    setStartTouchY(touchStartY); // Update the state with the starting Y-coordinate
+  };
+
+  const handleTouchEnd = (e) => {
+    const touchEndY = e.changedTouches[0].clientY; // Get the ending Y-coordinate
+    if (startTouchY != null) {
+      const deltaY = touchEndY - startTouchY; // Calculate the change in Y
+      if (deltaY < -30) {
+        // Threshold for swipe up
+        setIsFooterExpanded(true); // Expand the footer on swipe up
+      } else if (deltaY > 30) {
+        // Threshold for swipe down
+        setIsFooterExpanded(false); // Collapse the footer on swipe down
+      }
+    }
+  };
+
   const selectFood = (dish) => {
     const { temp, time, displayName, instructions } = dish;
 
@@ -605,6 +626,8 @@ function App() {
           zIndex="banner"
           color={secondaryTextColor[colorMode]}
           onClick={toggleFooter}
+          onTouchStart={handleTouchStart} // Listen for the start of a touch
+          onTouchEnd={handleTouchEnd} // Listen for the end of a touch
         >
           <VStack spacing={1}>
             <Icon
